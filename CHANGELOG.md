@@ -6,6 +6,7 @@ changes with their rationale when appropriate:
 ### v5.0.0.0 (uncut)
 - **http4k-*** : Upgrade of minimum build JDK to 19. We still build for 8 though.
 - **http4k-*** : [Breaking] All deprecations removed.
+- **http4k-template-dust** : [Breaking] Removal of module as Java 19 does not have the Nashhorn JS engine.
 - **http4k-core** : New development server implementation for use with Java 19: `SunHttpLoom`
 - **http4k-server-jetty** : New development server implementation for use with Java 19: `JettyLoom`
 

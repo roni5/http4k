@@ -48,7 +48,7 @@ open class ConfigurableMoshiYaml(
     }
 
     private fun yaml() = Yaml(
-        Constructor(), Representer(), yamlDumperOptions, LoaderOptions(), resolver
+        Constructor(Any::class.java), Representer(yamlDumperOptions), yamlDumperOptions, LoaderOptions(), resolver
     )
 
     inline fun <reified T : Any> WsMessage.Companion.auto() = WsMessage.string().map({ }, ::asFormatString)

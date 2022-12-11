@@ -270,6 +270,6 @@ fun Node.childrenCalled(wanted: String) = children()
 tasks.named<KotlinCompile>("compileTestKotlin") {
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs += listOf("-Xjvm-default=all", "--enable-preview")
+        freeCompilerArgs += listOf("-Xjvm-default=all")
     }
 }
