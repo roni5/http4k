@@ -77,6 +77,7 @@ Alternatively, read the [quickstart](https://www.http4k.org/quickstart/) or take
         * **Apache** sync + async HTTP
         * **Java** (bundled with `http4k-core`)
         * **Fuel** HTTP (supports sync and async HTTP)
+        * **Helidon** HTTP (supports Loom-based sync HTTP)
         * **Jetty** HTTP (supports sync and async HTTP and websockets)
         * **OkHttp** HTTP (supports sync and async HTTP)
     * **1LOC** WebSocket client, with blocking and non-blocking modes
@@ -84,10 +85,11 @@ Alternatively, read the [quickstart](https://www.http4k.org/quickstart/) or take
 * [Server:](https://http4k.org/guide/reference/servers)
     * **1LOC** server backend spin-up for:
         * **Apache v4 & v5** (from httpcore)
-        * **Jetty** (including WebSocket support)
+        * **Helidon** (Loom-based)
+        * **Jetty** & **JettyLoom** (including WebSocket support)
         * **Ktor CIO & Netty**
         * **Netty** (including WebSocket support)
-        * **SunHttp** (bundled with `http4k-core`)
+        * **SunHttp** & **SunHttpLoom** (bundled with `http4k-core`)
         * **Undertow** (including SSE and WebSocket support)
     * API design allows for simple customization of underying backend.
     * **Native Friendly** Several of the supported backends can be compiled with **GraalVM** and **Quarkus** with zero configuration.

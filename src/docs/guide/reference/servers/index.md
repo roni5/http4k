@@ -10,7 +10,7 @@ implementation group: "org.http4k", name: "http4k-server-apache", version: "4.34
 // Apache v4: 
 implementation group: "org.http4k", name: "http4k-server-apache4", version: "4.34.3.1"
 
-// Helidon: 
+// Helidon (Loom-based): 
 implementation group: "org.http4k", name: "http4k-server-jetty", version: "4.34.3.1"
 
 // Jetty & JettyLoom: 
