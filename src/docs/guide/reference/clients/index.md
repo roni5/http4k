@@ -5,34 +5,34 @@ description: Feature overview of the http4k-client modules
 
 ```groovy
 // Java (for development only):
-implementation group: "org.http4k", name: "http4k-core", version: "4.34.3.1"
+implementation group: "org.http4k", name: "http4k-core", version: "5.0.0.0"
 
 // Apache v5 (Sync): 
-implementation group: "org.http4k", name: "http4k-client-apache", version: "4.34.3.1"
+implementation group: "org.http4k", name: "http4k-client-apache", version: "5.0.0.0"
 
 // Apache v4 (Sync): 
-implementation group: "org.http4k", name: "http4k-client-apache4", version: "4.34.3.1"
+implementation group: "org.http4k", name: "http4k-client-apache4", version: "5.0.0.0"
 
 // Apache v5 (Async): 
-implementation group: "org.http4k", name: "http4k-client-apache-async", version: "4.34.3.1"
+implementation group: "org.http4k", name: "http4k-client-apache-async", version: "5.0.0.0"
 
 // Apache v4 (Async): 
-implementation group: "org.http4k", name: "http4k-client-apache4-async", version: "4.34.3.1"
+implementation group: "org.http4k", name: "http4k-client-apache4-async", version: "5.0.0.0"
 
 // Fuel (Sync + Async): 
-implementation group: "org.http4k", name: "http4k-client-fuel", version: "4.34.3.1"
+implementation group: "org.http4k", name: "http4k-client-fuel", version: "5.0.0.0"
 
 // Helidon (Loom-based): 
-implementation group: "org.http4k", name: "http4k-client-helidon", version: "4.34.3.1"
+implementation group: "org.http4k", name: "http4k-client-helidon", version: "5.0.0.0"
 
 // Jetty (Sync + Async + WebSocket): 
-implementation group: "org.http4k", name: "http4k-client-jetty", version: "4.34.3.1"
+implementation group: "org.http4k", name: "http4k-client-jetty", version: "5.0.0.0"
 
 // OkHttp (Sync + Async): 
-implementation group: "org.http4k", name: "http4k-client-okhttp", version: "4.34.3.1"
+implementation group: "org.http4k", name: "http4k-client-okhttp", version: "5.0.0.0"
 
 // Websocket: 
-implementation group: "org.http4k", name: "http4k-client-websocket", version: "4.34.3.1"
+implementation group: "org.http4k", name: "http4k-client-websocket", version: "5.0.0.0"
 ```
 
 ### HTTP

@@ -110,7 +110,6 @@ Alternatively, read the [quickstart](https://www.http4k.org/quickstart/) or take
     * [Swagger UI](https://http4k.org/guide/howto/create_a_swagger_ui) for OpenApi descriptions
 * [Templating:](https://http4k.org/guide/reference/templating) 
     * **Pluggable** templating system support for:
-        * **Dust** 
         * **Freemarker**
         * **Handlebars** 
         * **Pebble**
@@ -189,9 +188,9 @@ To install, add these dependencies to your **Gradle** file:
 
 ```groovy
 dependencies {
-    implementation group: "org.http4k", name: "http4k-core", version: "4.34.3.1"
-    implementation group: "org.http4k", name: "http4k-server-jetty", version: "4.34.3.1"
-    implementation group: "org.http4k", name: "http4k-client-okhttp", version: "4.34.3.1"
+    implementation group: "org.http4k", name: "http4k-core", version: "5.0.0.0"
+    implementation group: "org.http4k", name: "http4k-server-jetty", version: "5.0.0.0"
+    implementation group: "org.http4k", name: "http4k-client-okhttp", version: "5.0.0.0"
 }
 ```
 
