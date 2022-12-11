@@ -63,8 +63,8 @@ allprojects {
 
         named<JacocoReport>("jacocoTestReport") {
             reports {
-                html.isEnabled = true
-                xml.isEnabled = true
+                html.required.set(true)
+                xml.required.set(true)
             }
         }
 
@@ -270,6 +270,6 @@ fun Node.childrenCalled(wanted: String) = children()
 tasks.named<KotlinCompile>("compileTestKotlin") {
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs = freeCompilerArgs + listOf("-Xjvm-default=all")
+        freeCompilerArgs += listOf("-Xjvm-default=all", "--enable-preview")
     }
 }
