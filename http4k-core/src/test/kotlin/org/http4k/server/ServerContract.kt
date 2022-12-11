@@ -38,9 +38,7 @@ abstract class ServerContract(
     private val serverConfig: (Int) -> ServerConfig, protected val client: HttpHandler,
     private val requiredMethods: Array<Method> = Method.values()
 ) {
-    private lateinit var server: Http4kServer
-
-    protected val baseUrl by lazy { "http://localhost:${server.port()}" }
+    protected fun baseUrl() = "http://localhost:${server.port()}"
 
     private val size = 1000 * 1024
     private val random = (0 until size).map { '.' }.joinToString("")
@@ -85,16 +83,19 @@ abstract class ServerContract(
             }
         )
 
+    private var server = routes(*routes.toTypedArray()).asServer(serverConfig(0))
+
     @BeforeEach
     fun before() {
-        server = routes(*routes.toTypedArray()).asServer(serverConfig(0)).start()
+        server.start()
     }
+
 
     @Test
     fun `can call an endpoint with all supported Methods`() {
         for (method in requiredMethods) {
 
-            val response = client(Request(method, baseUrl + "/" + method.name))
+            val response = client(Request(method, baseUrl() + "/" + method.name))
 
             assertThat(response.status, equalTo(OK))
             if (method == Method.HEAD) assertThat(response.body, equalTo(Body.EMPTY))
@@ -104,13 +105,13 @@ abstract class ServerContract(
 
     @Test
     fun `null header`() {
-        val response = client(Request(GET, "$baseUrl/null-header-value"))
+        val response = client(Request(GET, "${baseUrl()}/null-header-value"))
         assertThat(response.status, equalTo(OK))
     }
 
     @Test
     open fun `can return a large body - GET`() {
-        val response = client(Request(GET, "$baseUrl/large").body("hello mum"))
+        val response = client(Request(GET, "${baseUrl()}/large").body("hello mum"))
 
         assertThat(response.status, equalTo(OK))
         assertThat(response.bodyString().length, equalTo(random.length + 1))
@@ -118,7 +119,7 @@ abstract class ServerContract(
 
     @Test
     open fun `can return a large body - POST`() {
-        val response = client(Request(POST, "$baseUrl/large").body("hello mum"))
+        val response = client(Request(POST, "${baseUrl()}/large").body("hello mum"))
 
         assertThat(response.status, equalTo(OK))
         assertThat(response.bodyString().length, equalTo(random.length + 1))
@@ -126,7 +127,7 @@ abstract class ServerContract(
 
     @Test
     fun `gets the body from the request`() {
-        val response = client(Request(POST, "$baseUrl/echo").body("hello mum"))
+        val response = client(Request(POST, "${baseUrl()}/echo").body("hello mum"))
 
         assertThat(response.status, equalTo(OK))
         assertThat(response.bodyString(), equalTo("hello mum"))
@@ -134,7 +135,7 @@ abstract class ServerContract(
 
     @Test
     fun `can set multiple headers with the same name`() {
-        val response = client(Request(GET, "$baseUrl/multiple-headers"))
+        val response = client(Request(GET, "${baseUrl()}/multiple-headers"))
 
         assertThat(response.status, equalTo(OK))
         assertThat(response, hasHeader("foo", listOf("value1", "value2")))
@@ -142,7 +143,7 @@ abstract class ServerContract(
 
     @Test
     fun `returns headers`() {
-        val response = client(Request(GET, "$baseUrl/headers"))
+        val response = client(Request(GET, "${baseUrl()}/headers"))
         assertThat(response.status, equalTo(ACCEPTED))
         assertThat(response.headerValues("content-type").size, equalTo(1))
         assertThat(response.header("content-type"), equalTo("text/plain"))
@@ -151,7 +152,7 @@ abstract class ServerContract(
     @Test
     fun `length is set on body if it is sent`() {
         val response = client(
-            Request(POST, "$baseUrl/length")
+            Request(POST, "${baseUrl()}/length")
                 .body("12345").header("Content-Length", "5")
         )
         assertThat(response, hasStatus(OK).and(hasBody("5")))
@@ -159,13 +160,13 @@ abstract class ServerContract(
 
     @Test
     fun `length is ignored on body if it not well formed`() {
-        val response = client(Request(POST, "$baseUrl/length").header("Content-Length", "nonsense").body("12345"))
+        val response = client(Request(POST, "${baseUrl()}/length").header("Content-Length", "nonsense").body("12345"))
         assertThat(response, hasStatus(OK).and(hasBody("5")))
     }
 
     @Test
     fun `gets the uri from the request`() {
-        val response = client(Request(GET, "$baseUrl/uri?bob=bill"))
+        val response = client(Request(GET, "${baseUrl()}/uri?bob=bill"))
 
         assertThat(response.status, equalTo(OK))
         assertThat(response.bodyString(), equalTo("/uri?bob=bill"))
@@ -173,7 +174,7 @@ abstract class ServerContract(
 
     @Test
     fun `endpoint that blows up results in 500`() {
-        val response = client(Request(GET, "$baseUrl/boom"))
+        val response = client(Request(GET, "${baseUrl()}/boom"))
 
         assertThat(response.status, equalTo(INTERNAL_SERVER_ERROR))
     }
@@ -181,7 +182,7 @@ abstract class ServerContract(
     @Test
     fun `can handle multiple request headers`() {
         val response = client(
-            Request(GET, "$baseUrl/request-headers").header("foo", "one").header("foo", "two").header("foo", "three")
+            Request(GET, "${baseUrl()}/request-headers").header("foo", "one").header("foo", "two").header("foo", "three")
         )
 
         assertThat(response.status, equalTo(OK))
@@ -190,7 +191,7 @@ abstract class ServerContract(
 
     @Test
     fun `deals with streaming response`() {
-        val response = client(Request(GET, "$baseUrl/stream"))
+        val response = client(Request(GET, "${baseUrl()}/stream"))
 
         assertThat(response.status, equalTo(OK))
         assertThat(response.bodyString(), equalTo("hello"))
@@ -198,7 +199,7 @@ abstract class ServerContract(
 
     @Test
     open fun `ok when length already set`() {
-        val response = client(Request(GET, "$baseUrl/presetlength"))
+        val response = client(Request(GET, "${baseUrl()}/presetlength"))
         assertThat(response.status, equalTo(OK))
         assertThat(response.header("content-length"), equalTo("0"))
     }
@@ -215,7 +216,7 @@ abstract class ServerContract(
         val client = createDefault()
         client.use {
             assertThat(
-                client.execute(HttpUriRequestBase("FOOBAR", create(baseUrl))).code,
+                client.execute(HttpUriRequestBase("FOOBAR", create(baseUrl()))).code,
                 equalTo(501)
             )
         }
@@ -224,7 +225,7 @@ abstract class ServerContract(
     @Test
     fun `can resolve request source`() {
         assertThat(
-            client(Request(GET, "$baseUrl/request-source")),
+            client(Request(GET, "${baseUrl()}/request-source")),
             allOf(
                 hasStatus(OK),
                 hasHeader("x-address", clientAddress()),

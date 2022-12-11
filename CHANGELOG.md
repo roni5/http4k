@@ -3,6 +3,12 @@
 This list is not intended to be all-encompassing - it will document major and breaking API 
 changes with their rationale when appropriate:
 
+### v5.0.0.0 (uncut)
+- **http4k-*** : Upgrade of minimum build JDK to 19. We still build for 8 though.
+- **http4k-*** : [Breaking] All deprecations removed.
+- **http4k-core** : New development server implementation for use with Java 19: `SunHttpLoom`
+- **http4k-server-jetty** : New development server implementation for use with Java 19: `JettyLoom`
+
 ### v4.34.3.1
 - **http4k-*** : Fix #827 - Requests with unknown HTTP method result in uncaught exceptions
 
